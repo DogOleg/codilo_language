@@ -14,14 +14,14 @@ class Parser:
         self.size = len(tokens)
 
     def parse(self):
-        result = BlockStatement
+        result = BlockStatement()
         while(not self.match("EOF")):
             st = self.statement()
             result.add(st)
         return result
 
     def block(self):
-        block = BlockStatement
+        block = BlockStatement()
         #self.consume("LBRACE")
         self.pos+=1
         while (not self.match("RBRACE")):

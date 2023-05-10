@@ -9,6 +9,7 @@ def main():
     parser = Parser(tokens)
 
     program = parser.parse()
+    #program.execute()
     for stmt in program:
         if stmt is not None:
             stmt.execute()
