@@ -2,7 +2,9 @@ from Lexer import *
 from Parser import *
 
 def main():
-    string_input = "loh = 7\n hol = 5 + 6\n loh = hol"
+    string_input = "{" \
+                   "loh = 6 " \
+                   "}"
     obj = Lexer(string_input)
     tokens = obj.Tokenize()
     print(tokens)
@@ -10,5 +12,7 @@ def main():
     statement = parser.parse()
 
     print(variables)
+
+
 main()
 

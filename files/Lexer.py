@@ -5,6 +5,8 @@ operators_char = {
     "*": "MULTY",
     "(": "LPAREN",
     ")": "RPAREN",
+    "{": "LBRACE",
+    "}": "RBRACE",
     "=": "EQ",
     "!": "FOR"
 }

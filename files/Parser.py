@@ -3,6 +3,7 @@ from OperationExpression import *
 from UnaryExpression import *
 from AssigmentStatement import *
 from VariableExpression import *
+from BlockStatement import *
 #from .variableExpression import *
 class Parser:
     def __init__(self, tokens):
@@ -11,11 +12,17 @@ class Parser:
         self.size = len(tokens)
 
     def parse(self):
-        result = []
+        result = BlockStatement
         while(not self.match("EOF")):
-            result.append(self.statement())
+            result.add(self.statement())
         return result
 
+    def block(self):
+        block = BlockStatement
+        #self.consume("LBRACE")
+        while (not self.match("RBRACE")):
+            block.add(self.statement())
+        return block
     def statement(self):
         return self.assigmentStatement()
 
