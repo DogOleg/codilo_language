@@ -4,6 +4,7 @@ from UnaryExpression import *
 from AssigmentStatement import *
 from VariableExpression import *
 from BlockStatement import *
+from ForStatement import *
 #from .variableExpression import *
 class Parser:
     def __init__(self, tokens):
@@ -12,18 +13,21 @@ class Parser:
         self.size = len(tokens)
 
     def parse(self):
-        result = BlockStatement
+        result = []
         while(not self.match("EOF")):
-            result.add(self.statement())
+            result.append(self.statement())
         return result
 
     def block(self):
-        block = BlockStatement
+
         #self.consume("LBRACE")
+        self.pos+=1
         while (not self.match("RBRACE")):
-            block.add(self.statement())
+            block = addStatement(self.statement())
         return block
     def statement(self):
+        if self.match("FOR"):
+            return self.forStatement()
         return self.assigmentStatement()
 
     def assigmentStatement(self):
@@ -35,7 +39,6 @@ class Parser:
             #self.consume("EQ")
 
             resultToVariable = self.Expression()
-            resultToVariable = resultToVariable.eval()
             result_Variable = AssigmentStatement(variable, resultToVariable)
             result_Variable.execute()
             return result_Variable
@@ -45,6 +48,11 @@ class Parser:
     #def consume(self):
      #   current = self.get(0)
 
+    def statementOrBlock(self):
+        if list(self.get(0))[0] == "LBRACE":
+            return self.block()
+        else:
+            return self.statement()
 
     def Expression(self):
         return self.additive()
@@ -95,6 +103,21 @@ class Parser:
             variablesexpression = VariableExpression(current["WORD"])
             return variablesexpression
         raise Exception('unknown expression')
+
+    def forStatement(self):
+        list(self.get(0))[0] == "LPARREN"
+        self.pos += 1
+        start = self.primary()
+        list(self.get(0))[0] == "COMMA"
+        self.pos += 1
+        finish = self.primary()
+        list(self.get(0))[0] == "RPARREN"
+        self.pos += 1
+        block = self.statementOrBlock()
+
+        statement = ForStatement(int(start.eval()), int(finish.eval()), block)
+        return statement
+
 
     def match(self, type):
         current = self.get(0)

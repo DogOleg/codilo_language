@@ -6,6 +6,6 @@ class AssigmentStatement:
         self.result = result
 
     def execute(self):
-        setVariables(self.variable, self.result)
+        setVariables(self.variable, self.result.eval())
 
 

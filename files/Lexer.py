@@ -8,7 +8,8 @@ operators_char = {
     "{": "LBRACE",
     "}": "RBRACE",
     "=": "EQ",
-    "!": "FOR"
+    "@": "FOR",
+    ",": "COMMA"
 }
 
 class Lexer:
