@@ -28,8 +28,10 @@ class Parser:
             #self.consume("EQ")
 
             resultToVariable = self.Expression()
-            resultVariable = AssigmentStatement(variable, resultToVariable.eval())
-            return resultVariable
+            resultToVariable = resultToVariable.eval()
+            result_Variable = AssigmentStatement(variable, resultToVariable)
+            result_Variable.execute()
+            return result_Variable
 
         raise Exception ("Unknown Statement")
 

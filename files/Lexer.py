@@ -5,7 +5,8 @@ operators_char = {
     "*": "MULTY",
     "(": "LPAREN",
     ")": "RPAREN",
-    "=": "EQ"
+    "=": "EQ",
+    "!": "FOR"
 }
 
 class Lexer:
@@ -30,7 +31,6 @@ class Lexer:
             else:
                 self.next()
         return self.tokens
-    #
 
     def tokenize_word(self):
         line_num = ''

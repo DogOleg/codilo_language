@@ -6,4 +6,4 @@ class VariableExpression:
 
 
     def eval(self):
-        return variables.get(self.name)
+        return getVariables(self.name)
