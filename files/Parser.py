@@ -85,7 +85,7 @@ class Parser:
             self.match("RPAREN")
             return result
         if(self.match("WORD")):
-            variablesexpression = variableExpression(current["WORD"])
+            variablesexpression = VariableExpression(current["WORD"])
             return variablesexpression
         raise Exception('unknown expression')
 

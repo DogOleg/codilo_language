@@ -8,8 +8,6 @@ def main():
     print(tokens)
     parser = Parser(tokens)
     statement = parser.parse()
-    for i in statement:
-        print(i.execute())
 
     print(variables)
 main()

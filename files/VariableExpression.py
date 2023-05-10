@@ -1,7 +1,7 @@
 from Variables import *
 
 class VariableExpression:
-    def init(self, name):
+    def __init__(self, name):
         self.name = name
 
 
