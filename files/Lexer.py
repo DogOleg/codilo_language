@@ -9,7 +9,14 @@ operators_char = {
     "}": "RBRACE",
     "=": "EQ",
     ",": "COMMA",
-    "^": "POW"
+    "^": "POW",
+    "==": "EQUALITY",
+    ">": "BIG",
+    "<": "SMALL",
+    "<=": "SMALLEQ",
+    ">=": "BIGEQ",
+    "ПИСЬМО": "PRINT",
+    "~": "SQRT"
 }
 
 class Lexer:
@@ -52,10 +59,12 @@ class Lexer:
             line_num += current
             self.next()
             current = self.peek(0)
-        if line_num == 'Ежели':
+        if line_num == 'ПИСЬМО':
+            self.add_Token("PRINT", line_num)
+        elif line_num == 'Ежели':
             self.add_Token("IF", line_num)
         elif line_num == 'Покуда':
-            self.add_Token("WHILE, line_num")
+            self.add_Token("WHILE", line_num)
         elif  line_num == 'Доколе':
             self.add_Token("FOR", line_num)
         else:

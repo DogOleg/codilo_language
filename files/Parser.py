@@ -6,6 +6,9 @@ from VariableExpression import *
 from BlockStatement import *
 from ForStatement import *
 from WhileStatement  import *
+from IFStatement import *
+from PrintStatement import *
+from MathlibExpression import *
 
 #from .variableExpression import *
 class Parser:
@@ -30,10 +33,18 @@ class Parser:
             block.add(self.statement())
         return block
     def statement(self):
+        current = self.get(0)
+        if(self.match("PRINT")):
+            return PrintStatement(self.Expression())
+        if (self.match("LIBRARY_NAME")):
+            if (current["LIBRARY_NAME"] == 'Счётъ'):
+                self.libraryNameTrue = 1
         if self.match("WHILE"):
             return self.WhileStatement()
-        elif self.match("FOR"):
+        if self.match("FOR"):
             return self.forStatement()
+        if self.match("IF"):
+            return self.IfStatement()
         return self.assigmentStatement()
 
     def assigmentStatement(self):
@@ -89,10 +100,11 @@ class Parser:
                 continue
             if (self.match("POW")):
                 if (self.libraryNameTrue == 1):
-                    result = OperationExpression("^", result, self.unary())
+                    result = MathlibExpression("^", result, self.unary())
                     continue
                 else:
                     raise Exception('no such library')
+
             break
 
         return result
@@ -111,9 +123,7 @@ class Parser:
             result = self.Expression()
             self.match("RPAREN")
             return result
-        if(self.match("LIBRARY_NAME")):
-            if (current["LIBRARY_NAME"] == 'Алгебра'):
-                self.libraryNameTrue = 1
+
         if(self.match("WORD")):
             variablesexpression = VariableExpression(current["WORD"])
             return variablesexpression
@@ -142,6 +152,37 @@ class Parser:
         block = self.statementOrBlock()
         statement = WhileStatement(condition, block)
         return statement
+
+    def IfStatement(self):
+        list(self.get(0))[0] == "LPARREN"
+        self.pos += 1
+        condition = self.conditionsOP()
+        list(self.get(0))[0] == "RPARREN"
+        self.pos += 1
+        block = self.statementOrBlock()
+        statement = IfStatement(condition, block)
+        return statement
+
+    def conditionsOP(self):
+        result = self.primary()
+        while True:
+            if (self.match("SMALLEQ")):
+                result = OperationExpression("<=", result, self.primary())
+                continue
+            if (self.match("BIGEQ")):
+                result = OperationExpression(">=", result, self.primary())
+                continue
+            if (self.match("SMALL")):
+                result = OperationExpression("<", result, self.primary())
+                continue
+            if (self.match("BIG")):
+                result = OperationExpression(">", result, self.primary())
+                continue
+            if (self.match("EQUALITY")):
+                result = OperationExpression("==", result, self.primary())
+                continue
+            break
+        return result
 
     def match(self, type):
         current = self.get(0)
