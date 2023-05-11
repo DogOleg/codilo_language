@@ -9,7 +9,8 @@ operators_char = {
     "}": "RBRACE",
     "=": "EQ",
     "@": "FOR",
-    ",": "COMMA"
+    ",": "COMMA",
+    "^": "POW"
 }
 
 class Lexer:

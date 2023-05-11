@@ -14,3 +14,5 @@ class OperationExpression:
             return self.expr1.eval() / self.expr2.eval()
         elif (self.operation == "-"):
             return self.expr1.eval() - self.expr2.eval()
+        elif (self.operation == "^"):
+            return self.expr1.eval() ** self.expr2.eval()

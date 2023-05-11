@@ -2,7 +2,7 @@ from Lexer import *
 from Parser import *
 
 def main():
-    string_input = "loh = 0 @  ( 1 , 10 ) { loh = loh + 1 }"
+    string_input = "loh = 0 @ ( 1 , 10 ) { loh = loh + 1 }"
     obj = Lexer(string_input)
     tokens = obj.Tokenize()
     print(tokens)

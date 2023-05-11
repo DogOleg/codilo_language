@@ -83,6 +83,9 @@ class Parser:
             if (self.match("DEL")):
                 result = OperationExpression("/", result, self.unary())
                 continue
+            if (self.match("POW")):
+                result = OperationExpression("^", result, self.unary())
+                continue
             break
 
         return result
