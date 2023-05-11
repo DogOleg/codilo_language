@@ -5,9 +5,11 @@ from AssigmentStatement import *
 from VariableExpression import *
 from BlockStatement import *
 from ForStatement import *
+from WhileStatement  import *
 
 #from .variableExpression import *
 class Parser:
+    libraryNameTrue = 0
     def __init__(self, tokens):
         self.tokens = tokens
         self.pos = 0
@@ -28,7 +30,9 @@ class Parser:
             block.add(self.statement())
         return block
     def statement(self):
-        if self.match("FOR"):
+        if self.match("WHILE"):
+            return self.WhileStatement()
+        elif self.match("FOR"):
             return self.forStatement()
         return self.assigmentStatement()
 
@@ -84,8 +88,11 @@ class Parser:
                 result = OperationExpression("/", result, self.unary())
                 continue
             if (self.match("POW")):
-                result = OperationExpression("^", result, self.unary())
-                continue
+                if (self.libraryNameTrue == 1):
+                    result = OperationExpression("^", result, self.unary())
+                    continue
+                else:
+                    raise Exception('no such library')
             break
 
         return result
@@ -104,9 +111,13 @@ class Parser:
             result = self.Expression()
             self.match("RPAREN")
             return result
+        if(self.match("LIBRARY_NAME")):
+            if (current["LIBRARY_NAME"] == 'Алгебра'):
+                self.libraryNameTrue = 1
         if(self.match("WORD")):
             variablesexpression = VariableExpression(current["WORD"])
             return variablesexpression
+
         raise Exception('unknown expression')
 
     def forStatement(self):
@@ -119,10 +130,18 @@ class Parser:
         list(self.get(0))[0] == "RPARREN"
         self.pos += 1
         block = self.statementOrBlock()
-
         statement = ForStatement(int(start.eval()), int(finish.eval()), block)
         return statement
 
+    def WhileStatement(self):
+        list(self.get(0))[0] == "LPARREN"
+        self.pos += 1
+        condition = self.conditionsOP()
+        list(self.get(0))[0] == "RPARREN"
+        self.pos += 1
+        block = self.statementOrBlock()
+        statement = WhileStatement(condition, block)
+        return statement
 
     def match(self, type):
         current = self.get(0)

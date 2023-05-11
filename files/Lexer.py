@@ -8,7 +8,6 @@ operators_char = {
     "{": "LBRACE",
     "}": "RBRACE",
     "=": "EQ",
-    "@": "FOR",
     ",": "COMMA",
     "^": "POW"
 }
@@ -31,10 +30,20 @@ class Lexer:
                 self.tokenize_operator()
             elif(current == '#'):
                 self.next()
-                self.tokenize_bit_number()
+                self.tokenize_library_name()
             else:
                 self.next()
         return self.tokens
+
+    def tokenize_library_name(self):
+        line_num = ''
+        current = self.peek(0)
+        while (current.isalpha()):
+            line_num += current
+            self.next()
+            current = self.peek(0)
+        self.add_Token("LIBRARY_NAME", line_num)
+        return
 
     def tokenize_word(self):
         line_num = ''
@@ -43,7 +52,14 @@ class Lexer:
             line_num += current
             self.next()
             current = self.peek(0)
-        self.add_Token("WORD", line_num)
+        if line_num == 'Ежели':
+            self.add_Token("IF", line_num)
+        elif line_num == 'Покуда':
+            self.add_Token("WHILE, line_num")
+        elif  line_num == 'Доколе':
+            self.add_Token("FOR", line_num)
+        else:
+            self.add_Token("WORD", line_num)
         return
 
     def tokenize_number(self):
@@ -62,7 +78,14 @@ class Lexer:
         return
 
     def tokenize_operator(self):
-        self.add_Token(operators_char[self.peek(0)], self.peek(0))
+        # self.add_Token(operators_char[self.peek(0)], self.peek(0))
+        # self.next()
+        # return
+        if self.peek(1) == '=':
+            self.next()
+            self.add_Token(operators_char[self.peek(-1) + self.peek(0)], self.peek(-1) + self.peek(0))
+        else:
+            self.add_Token(operators_char[self.peek(0)], self.peek(0))
         self.next()
         return
 
