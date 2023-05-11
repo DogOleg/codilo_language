@@ -2,7 +2,13 @@ from Lexer import *
 from Parser import *
 
 def main():
-    string_input = "loh = 0 @ ( 1 , 10 ) { loh = loh + 1 }"
+    string_input = " пер = 2 ^ 2 " \
+                   " пердва = 1" \
+                   " @ ( 1 , 10 )" \
+                   " { " \
+                   " пер = пер + 1 " \
+                   " пердва = пердва + 3 " \
+                   " } "
     obj = Lexer(string_input)
     tokens = obj.Tokenize()
     print(tokens)

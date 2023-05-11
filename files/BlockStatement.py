@@ -1,8 +1,8 @@
 from Statement import *
 class BlockStatement(Statement):
-    statements = []
-    # def __init__(self, statement):
-    #     self.statements = statement
+    #statements = []
+    def __init__(self):
+        self.statements = []
 
     def add(self, statement):
         self.statements.append(statement)
